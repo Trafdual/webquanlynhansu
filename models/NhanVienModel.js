@@ -10,7 +10,8 @@ const nhanvienSchema = new mongoose.Schema({
   email: { type: String },
   cccd: { type: String },
   chucvu: { type: String },
-  chamcong: [{ type: mongoose.Schema.Types.ObjectId, ref: 'chamcong' }]
+  chamcong: [{ type: mongoose.Schema.Types.ObjectId, ref: 'chamcong' }],
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'user' }
 })
 
 const nhanvien = mongoose.model('nhanvien', nhanvienSchema)

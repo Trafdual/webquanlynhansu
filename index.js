@@ -7,6 +7,7 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const MongoStore = require('connect-mongo')
 const userRoutes = require('./routes/UserRoutes')
+const nhanvienroutes = require('./routes/NhanVienRoutes')
 
 var path = require('path')
 
@@ -51,7 +52,8 @@ app.use(
 app.use(cors())
 
 const port = process.env.PORT || 8080
-app.use('/',userRoutes)
+app.use('/', userRoutes)
+app.use('/', nhanvienroutes)
 
 app.listen(port, () => {
   try {

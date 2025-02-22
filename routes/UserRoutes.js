@@ -57,6 +57,7 @@ router.post('/registernhanvien', async (req, res) => {
       chucvu
     })
     nhanvien.manv = 'NV' + nhanvien._id.toString().slice(-4)
+    nhanvien.user = user._id
     await user.save()
     await nhanvien.save()
     res.json(user)
