@@ -70,6 +70,7 @@ router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body
     const user = await User.findOne({ username })
+    const nhanvien = await NhanVien.findOne({ user: user._id })
 
     if (!user) {
       res.json({ message: 'Tên đăng nhập không chính xác' })
@@ -81,7 +82,15 @@ router.post('/login', async (req, res) => {
       return res.json({ message: 'Mật khẩu không chính xác' })
     }
 
-    res.json(user)
+    if (nhanvien) {
+      const data = {
+        nhanvien,
+        user
+      }
+      return res.json(data)
+    }
+
+    res.json({ user: user })
   } catch (error) {
     console.error(error)
   }

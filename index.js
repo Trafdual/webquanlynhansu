@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser')
 const MongoStore = require('connect-mongo')
 const userRoutes = require('./routes/UserRoutes')
 const nhanvienroutes = require('./routes/NhanVienRoutes')
+const chamcongroutes = require('./routes/ChamCongRoutes')
 
 var path = require('path')
 
@@ -37,6 +38,8 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, '/uploads')))
 app.use(express.static(path.join(__dirname, '/images')))
+app.use(express.static(path.join(__dirname, '/public')))
+
 
 app.use(
   session({
@@ -54,6 +57,7 @@ app.use(cors())
 const port = process.env.PORT || 8080
 app.use('/', userRoutes)
 app.use('/', nhanvienroutes)
+app.use('/', chamcongroutes)
 
 app.listen(port, () => {
   try {

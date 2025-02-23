@@ -24,6 +24,35 @@ router.get('/getnhanvien', async (req, res) => {
   }
 })
 
+router.post('/setrole/:idnhanvien', async (req, res) => {
+  try {
+    const idnhanvien = req.params.idnhanvien
+    const { role } = req.body
+    const nhanvien = await NhanVien.findById(idnhanvien)
+    const user = await User.findById(nhanvien.user)
+    user.role = role
+    await user.save()
+    res.json(nhanvien)
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+router.get('/getchitietnv/:idnhanvien', async (req, res) => {
+  try {
+    const idnhanvien = req.params.idnhanvien
+    const nhanvien = await NhanVien.findById(idnhanvien)
+    const user = await User.findById(nhanvien.user)
+    const data = {
+      nhanvien,
+      user
+    }
+    res.json(data)
+  } catch (error) {
+    console.error(error)
+  }
+})
+
 router.post('/updateNhanvien/:idnhanvien', async (req, res) => {
   try {
     const idnhanvien = req.params.idnhanvien
@@ -37,8 +66,7 @@ router.post('/updateNhanvien/:idnhanvien', async (req, res) => {
       gioitinh,
       cccd,
       diachi,
-      chucvu,
-      role
+      chucvu
     } = req.body
     const nhanvien = await NhanVien.findById(idnhanvien)
 
@@ -47,7 +75,6 @@ router.post('/updateNhanvien/:idnhanvien', async (req, res) => {
     user.username = username
     user.email = email
     user.phone = phone
-    user.role = role
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10)
       user.password = hashedPassword
