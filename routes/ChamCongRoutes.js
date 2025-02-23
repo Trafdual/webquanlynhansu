@@ -89,18 +89,18 @@ router.post('/scan', async (req, res) => {
     const { manv } = req.body
     const nhanvien = await NhanVien.findOne({ manv })
 
-    const fixedDate = new Date('2025-02-21T00:00:00Z') // Ngày cố định 21/2
-    fixedDate.setHours(0, 0, 0, 0)
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
 
     let chamCong = await ChamCong.findOne({
       nhanvien: nhanvien._id,
-      ngaycham: { $gte: fixedDate, $lt: new Date('2025-02-21T00:00:00Z') }
+      ngaycham: { $gte: today }
     })
 
     if (!chamCong) {
       chamCong = new ChamCong({
         nhanvien: nhanvien._id,
-        ngaycham: fixedDate,
+        ngaycham: new Date(),
         giocheckin: new Date()
       })
       nhanvien.chamcong.push(chamCong._id)
@@ -116,15 +116,13 @@ router.post('/scan', async (req, res) => {
     }
 
     return res.json({
-      message: 'Ngày 21/2 đã check-in & check-out'
+      message: 'Hôm nay đã check-in & check-out'
     })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: 'Lỗi hệ thống' })
   }
 })
-
-
 
 router.get('/getchamcong', async (req, res) => {
   try {
